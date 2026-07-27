@@ -53,7 +53,7 @@ const OtherUserProfile = () => {
         const checkRequest = async () => {
             if (!authUser?._id) return;
             try {
-                const res = await axiosInstance.get(`/requests/check/${authUser._id}/${userId}`);
+                const res = await axiosInstance.get(`/requests/check/${userId}`);
                 if (res.data.exists) {
                     setRequestStatus(res.data.status);
                     setRequestId(res.data.requestId);
@@ -74,7 +74,6 @@ const OtherUserProfile = () => {
         setRequestLoading(true);
         try {
             const res = await axiosInstance.post('/requests/send', {
-                senderId: authUser._id,
                 receiverId: userId,
             });
             setRequestStatus('pending');
@@ -361,4 +360,4 @@ const OtherUserProfile = () => {
     );
 };
 
-export default OtherUserProfile; 
+export default OtherUserProfile;
