@@ -1,5 +1,5 @@
 import Review from "../models/Review.model.js";
-import Session from "../models/Session.model.js";
+import Session from "../models/session.model.js";
 import User from "../models/User.js";
 
 export const createReview = async (req, res) => {
