@@ -46,8 +46,8 @@ const Dashboard = () => {
     const fetchSessionCounts = async () => {
       try {
         const [upcomingRes, pastRes] = await Promise.all([
-          axiosInstance.get(`/sessions/upcoming/${user._id}`),
-          axiosInstance.get(`/sessions/past/${user._id}`),
+          axiosInstance.get('/sessions/upcoming'),
+          axiosInstance.get('/sessions/past'),
         ]);
 
         setUpcomingCount(upcomingRes.data.length);

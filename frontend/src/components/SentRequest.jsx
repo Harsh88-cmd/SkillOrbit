@@ -11,7 +11,7 @@ const SentRequest = () => {
     useEffect(() => {
         const fetchSentRequests = async () => {
             try {
-                const res = await axiosInstance.get(`/requests/sent/${authUser._id}`);
+                const res = await axiosInstance.get('/requests/sent');
                 setSentRequests(res.data);
             } catch (error) {
                 console.log(error);

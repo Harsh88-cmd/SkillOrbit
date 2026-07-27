@@ -44,9 +44,12 @@ export const getSentRequests = async (req, res) => {
             .populate('receiver', 'name email profilePic college department bio role')
             .sort({ createdAt: -1 });
 
+        // Skip requests whose receiver account no longer exists
+        const validRequests = requests.filter((req) => req.receiver);
+
         // Fetch skills separately for each receiver
         const requestsWithSkills = await Promise.all(
-            requests.map(async (req) => {
+            validRequests.map(async (req) => {
                 const skillData = await Skill.findOne({ userId: req.receiver._id });
                 return {
                     ...req.toObject(),
@@ -76,9 +79,12 @@ export const getReceivedRequests = async (req, res) => {
             .populate('sender', 'name email profilePic college department bio role')
             .sort({ createdAt: -1 });
 
+        // Skip requests whose sender account no longer exists
+        const validRequests = requests.filter((req) => req.sender);
+
         // Fetch skills separately for each sender
         const requestsWithSkills = await Promise.all(
-            requests.map(async (req) => {
+            validRequests.map(async (req) => {
                 const skillData = await Skill.findOne({ userId: req.sender._id });
                 return {
                     ...req.toObject(),
