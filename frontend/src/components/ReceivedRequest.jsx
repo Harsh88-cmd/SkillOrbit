@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../api/axios";
 import { useAuth } from "../context/AuthContext";
-import { CheckCircle, XCircle, Inbox } from "lucide-react";
+import { CheckCircle, XCircle, Inbox, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import ScheduleSessionModal from "./SheduleSessionModal";
 
 
 const ReceivedRequest = () => {
@@ -10,6 +11,7 @@ const ReceivedRequest = () => {
     const [receivedRequests, setReceivedRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user: authUser } = useAuth();
+    const [scheduleModalUserId, setScheduleModalUserId] = useState(null);
 
     useEffect(() => {
         const fetchReceivedRequests = async () => {
@@ -176,13 +178,24 @@ const ReceivedRequest = () => {
                                             <XCircle size={14} /> Reject
                                         </button>
                                     </div>
+                                ) : req.status === 'accepted' ? (
+                                    <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto items-start md:items-end">
+                                        <div className="badge badge-success gap-1 p-3">
+                                            <CheckCircle size={12} /> Accepted
+                                        </div>
+                                        <button
+                                            className="btn btn-primary btn-sm gap-1"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setScheduleModalUserId(req.sender._id);
+                                            }}
+                                        >
+                                            <Calendar size={14} /> Schedule Session
+                                        </button>
+                                    </div>
                                 ) : (
-                                    <div className={`badge p-3 gap-1 ${req.status === 'accepted' ? 'badge-success' : 'badge-error'
-                                        }`}>
-                                        {req.status === 'accepted'
-                                            ? <><CheckCircle size={12} /> Accepted</>
-                                            : <><XCircle size={12} /> Rejected</>
-                                        }
+                                    <div className="badge p-3 gap-1 badge-error">
+                                        <XCircle size={12} /> Rejected
                                     </div>
                                 )}
 
@@ -197,6 +210,13 @@ const ReceivedRequest = () => {
                     </div>
                 </div>
             ))}
+
+            {scheduleModalUserId && (
+                <ScheduleSessionModal
+                    otherUserId={scheduleModalUserId}
+                    onClose={() => setScheduleModalUserId(null)}
+                />
+            )}
         </div>
     );
 };

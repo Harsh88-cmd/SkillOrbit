@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../api/axios";
 import { useAuth} from "../context/AuthContext";
-import { Clock, CheckCircle, XCircle, Send } from "lucide-react";
+import { Clock, CheckCircle, XCircle, Send, Calendar } from "lucide-react";
+import ScheduleSessionModal from "./SheduleSessionModal";
 
 const SentRequest = () => {
     const [sentRequests, setSentRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user: authUser } = useAuth();
+    const [scheduleModalUserId, setScheduleModalUserId] = useState(null);
 
     useEffect(() => {
         const fetchSentRequests = async () => {
@@ -164,7 +166,7 @@ const SentRequest = () => {
                                 )}
                             </div>
 
-                            {/* Right — status + date + cancel */}
+                            {/* Right — status + date + cancel/schedule */}
                             <div className="flex flex-col md:items-end items-start gap-2 w-full md:w-auto shrink-0">
                                 {getStatusBadge(req.status)}
 
@@ -182,12 +184,28 @@ const SentRequest = () => {
                                         Cancel
                                     </button>
                                 )}
+
+                                {req.status === 'accepted' && (
+                                    <button
+                                        className="btn btn-primary btn-sm gap-1"
+                                        onClick={() => setScheduleModalUserId(req.receiver._id)}
+                                    >
+                                        <Calendar size={14} /> Schedule Session
+                                    </button>
+                                )}
                             </div>
 
                         </div>
                     </div>
                 </div>
             ))}
+
+            {scheduleModalUserId && (
+                <ScheduleSessionModal
+                    otherUserId={scheduleModalUserId}
+                    onClose={() => setScheduleModalUserId(null)}
+                />
+            )}
         </div>
     );
 };
