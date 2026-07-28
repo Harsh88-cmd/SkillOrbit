@@ -39,7 +39,7 @@ const features = [
 const Features = () => {
     return (
         <section id="features" className=" bg-base-200/50 py-20">
-            <div className="container mx-auto px-4">
+            <div className="max-w-7xl mx-auto px-4">
                 <div className="max-w-xl mx-auto text-center space-y-3 mb-14">
                     <span className="text-xs font-semibold tracking-wide text-violet-700 uppercase">
                         Why SkillXChange

@@ -5,7 +5,7 @@ const CTASection = () => {
 
     return (
         <section className="py-20">
-            <div className="container mx-auto px-4">
+            <div className="max-w-7xl mx-auto px-4">
                 <div className="relative overflow-hidden rounded-3xl bg-violet-700 px-8 py-16 text-center md:py-20">
 
                     {/* Decorative swap icon, subtle */}

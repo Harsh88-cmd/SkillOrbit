@@ -4,7 +4,7 @@ const Hero = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="container mx-auto px-4 pt-14 pb-20 md:pt-20 md:pb-28">
+        <div className="max-w-7xl mx-auto px-4 pt-14 pb-20 md:pt-20 md:pb-28">
             <div className="flex flex-col md:flex-row items-center gap-12">
 
                 {/* Left: Content */}
