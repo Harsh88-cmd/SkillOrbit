@@ -9,13 +9,17 @@ const Community = () => {
   const [communityModal, setCommunityModal] = useState(false);
   const [posts, setPosts] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
+  const[loading , setLoading] = useState(false);
 
   const fetchPosts = async () => {
+    setLoading(true);
     try {
       const res = await axiosInstance.get("/community/getPost");
       setPosts(res.data);
     } catch (error) {
       console.log(error);
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -62,6 +66,7 @@ const Community = () => {
             {/* Posts */}
             <div className="flex-1 overflow-y-auto">
               <GetCommunity
+                loading={loading}
                 posts={posts}
                 setPosts={setPosts}
                 setEditingPost={setEditingPost}

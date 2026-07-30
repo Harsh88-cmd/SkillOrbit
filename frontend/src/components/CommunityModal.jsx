@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../api/axios";
 
-const CommunityModal = ({
-  onClose,
-  fetchPosts,
-  editingPost,
-}) => {
+const CommunityModal = ({onClose,fetchPosts, editingPost,}) => {
 
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");

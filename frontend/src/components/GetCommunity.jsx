@@ -1,21 +1,10 @@
 import { useState } from "react";
 import { axiosInstance } from "../api/axios";
-import {
-    Trash2,
-    SquarePen,
-    LoaderCircle,
-    MessageSquareText,
-    ThumbsUp,
-} from "lucide-react";
+import { Trash2, SquarePen, LoaderCircle, MessageSquareText, ThumbsUp, } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const GetCommunity = ({
-    posts,
-    setPosts,
-    setEditingPost,
-    setCommunityModal,
-}) => {
+const GetCommunity = ({ posts, setPosts, setEditingPost, setCommunityModal, loading }) => {
 
     const navigate = useNavigate();
     const [deletingId, setDeletingId] = useState(null);
@@ -62,12 +51,12 @@ const GetCommunity = ({
                 prevPosts.map((post) =>
                     post._id === postId
                         ? {
-                              ...post,
-                              likesCount:
-                                  res.data.liked
-                                      ? post.likesCount + 1
-                                      : post.likesCount - 1,
-                          }
+                            ...post,
+                            likesCount:
+                                res.data.liked
+                                    ? post.likesCount + 1
+                                    : post.likesCount - 1,
+                        }
                         : post
                 )
             );
@@ -76,6 +65,16 @@ const GetCommunity = ({
             console.log(error);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="space-y-4">
+                <div className="skeleton h-32 w-full"></div>
+                <div className="skeleton h-32 w-full"></div>
+                <div className="skeleton h-32 w-full"></div>
+            </div>
+        );
+    }
 
     if (posts.length === 0) {
         return (

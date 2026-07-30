@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { useSkill } from "../context/useSkill";
 import { axiosInstance } from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Search, UserCheck, Calendar, X } from "lucide-react";
+import { LogOut, Search, UserCheck, Calendar, X} from "lucide-react";
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -18,12 +18,10 @@ const Dashboard = () => {
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   const [reviewsLoading, setReviewsLoading] = useState(true);
-
-  // NEW: real session counts (replacing hardcoded 3 / 12)
   const [upcomingCount, setUpcomingCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
 
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  // const [showOnboarding, setShowOnboarding] = useState(true);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -71,9 +69,9 @@ const Dashboard = () => {
     }
   };
 
-  const dismissOnboarding = () => {
-    setShowOnboarding(false);
-  };
+  // const dismissOnboarding = () => {
+  //   setShowOnboarding(false);
+  // };
 
   // Show banner only for genuinely new users (no activity yet), unless already dismissed
   const isNewUser = completedCount === 0;
@@ -109,7 +107,7 @@ const Dashboard = () => {
           </section>
 
           {/* Onboarding Banner — helps new users understand the flow */}
-          {showOnboarding && isNewUser && (
+          {isNewUser && (
             <section className="mb-8">
               <div className="card bg-primary/10 border border-primary/30 shadow-md relative">
 

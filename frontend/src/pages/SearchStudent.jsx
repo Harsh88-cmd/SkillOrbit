@@ -13,21 +13,23 @@ const SearchStudent = () => {
   const [search, setSearch] = useState("");
   const [selectedDepartment, setSelectedDepartment,] = useState("");
   const [selectedSkill, setSelectedSkill,] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   // Fetch students
   useEffect(() => {
     const getStudents = async () => {
+      setLoading(true);
       try {
-        const res =
-          await axiosInstance.get(
-            "/students/search"
-          );
+        const res = await axiosInstance.get("/students/search");
         setStudents(res.data);
         setFilteredStudents(
           res.data
         );
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -37,58 +39,27 @@ const SearchStudent = () => {
   // Filter Logic
   useEffect(() => {
     let filtered = students;
-
     // Search by Name
     if (search.trim()) {
-      filtered = filtered.filter(
-        (student) =>
-          student.name
-            .toLowerCase()
-            .includes(
-              search.toLowerCase()
-            )
-      );
+      filtered = filtered.filter((student) => student.name.toLowerCase().includes(search.toLowerCase()));
     }
 
     // Department Filter
-    if (
-      selectedDepartment
-    ) {
-      filtered =
-        filtered.filter(
-          (student) =>
-            student.department ===
-            selectedDepartment
-        );
+    if (selectedDepartment) {
+      filtered = filtered.filter((student) => student.department === selectedDepartment);
     }
 
     // Skill Filter
-    if (
-      selectedSkill.trim()
-    ) {
-      filtered =
-        filtered.filter(
-          (student) =>
-            student.teachSkills.some(
-              (skill) =>
-                skill
-                  .toLowerCase()
-                  .includes(
-                    selectedSkill.toLowerCase()
-                  )
-            )
-        );
+    if (selectedSkill.trim()) {
+      filtered = filtered.filter((student) => student.teachSkills.some((skill) => skill.toLowerCase().includes(selectedSkill.toLowerCase()))
+      );
     }
 
     setFilteredStudents(
       filtered
     );
-  }, [
-    search,
-    selectedDepartment,
-    selectedSkill,
-    students,
-  ]);
+  }, [search, selectedDepartment, selectedSkill, students]);
+
 
   return (
     <div className="h-screen flex overflow-hidden bg-base-200 transition-colors duration-300">
@@ -158,12 +129,12 @@ const SearchStudent = () => {
             <option value="Chemical">
               Chemical
             </option>
-            
+
             <option value="Civil">
               Civil
             </option>
 
-             <option value="Biotechnology">
+            <option value="Biotechnology">
               Biotechnology
             </option>
 
@@ -190,8 +161,26 @@ const SearchStudent = () => {
 
         {/* Student Cards */}
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-          {filteredStudents.length >
+          {loading ? (
+            [...Array(6)].map((_, index) => (
+              <div
+                key={index}
+                className="card bg-base-100 border border-base-300 shadow-md"
+              >
+                <div className="card-body space-y-4">
+                  <div className="skeleton w-20 h-20 rounded-full"></div>
+                  <div className="skeleton h-6 w-40"></div>
+                  <div className="skeleton h-4 w-24"></div>
+                  <div className="flex gap-2">
+                    <div className="skeleton h-8 w-20"></div>
+                    <div className="skeleton h-8 w-20"></div>
+                  </div>
+                  <div className="skeleton h-10 w-full"></div>
+                </div>
+              </div>
+            ))
+          )
+          :filteredStudents.length >
             0 ? (
             filteredStudents.map(
               (student) => (
@@ -202,21 +191,21 @@ const SearchStudent = () => {
                   className="card bg-base-100 border border-base-300 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="card-body flex">
-                    
-                    <div className="flex gap-4"> 
+
+                    <div className="flex gap-4">
                       <div className="flex w-20 h-20 rounded-full bg-secondary/10 text-secondary font-bold text-xl items-center justify-center overflow-hidden">
-                      {student.profilePic ? (
-                                        <img src={student.profilePic} alt={student.name} className="w-full h-full object-cover" />
-                                    ) : ( 
-                                        <span>{student.name?.charAt(0).toUpperCase()}</span>
-                                    )}
-                    </div>
- 
-                    <h2 className="card-title text-base-content text-xl">
+                        {student.profilePic ? (
+                          <img src={student.profilePic} alt={student.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span>{student.name?.charAt(0).toUpperCase()}</span>
+                        )}
+                      </div>
+
+                      <h2 className="card-title text-base-content text-xl">
                         {
-                           student.name
+                          student.name
                         }
-                     </h2>
+                      </h2>
                     </div>
 
                     {/* Department */}
@@ -236,32 +225,16 @@ const SearchStudent = () => {
                       </h3>
 
                       <div className="flex flex-wrap gap-2">
-                        {student
-                          .teachSkills
-                          ?.length >
-                          0 ? (
-                          student.teachSkills.map(
-                            (
-                              skill,
-                              index
-                            ) => (
-                              <div
-                                key={
-                                  index
-                                }
-                                className="badge badge-primary badge-outline p-4"
-                              >
-                                {
-                                  skill
-                                }
-                              </div>
-                            )
-                          )
+                        {student.teachSkills?.length > 0 ? (student.teachSkills.map((skill, index) => (
+                          <div key={index}
+                            className="badge badge-primary badge-outline p-4">
+                            {skill}
+                          </div>
+                        )
+                        )
                         ) : (
                           <p className="text-sm text-base-content/50">
-                            No
-                            skills
-                            added
+                            No skills added
                           </p>
                         )}
                       </div>

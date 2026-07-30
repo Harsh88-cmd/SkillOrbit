@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../api/axios";
 import { useAuth} from "../context/AuthContext";
-import { Clock, CheckCircle, XCircle, Send, Calendar } from "lucide-react";
+import { Clock, CheckCircle, XCircle,Calendar,Search , UserCheck } from "lucide-react";
 import ScheduleSessionModal from "./SheduleSessionModal";
+import { useNavigate } from "react-router-dom";
 
 const SentRequest = () => {
     const [sentRequests, setSentRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user: authUser } = useAuth();
     const [scheduleModalUserId, setScheduleModalUserId] = useState(null);
+    const navigate = useNavigate();
+    
 
     useEffect(() => {
         const fetchSentRequests = async () => {
@@ -80,15 +83,64 @@ const SentRequest = () => {
 
     // Empty State
     if (sentRequests.length === 0) return (
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="bg-base-200 rounded-full p-6">
-                <Send size={40} className="text-base-content/30" />
-            </div>
-            <h3 className="text-lg font-semibold text-base-content/50">No Sent Requests</h3>
-            <p className="text-sm text-base-content/40">
-                Visit a student profile and send a skill exchange request!
-            </p>
-        </div>
+        <section className="mb-8">
+              <div className="card bg-primary/10 border border-primary/30 shadow-md relative">
+
+                <div className="card-body">
+                  <h3 className="card-title text-primary">
+                    New here? Here's how you can sent you first request 
+                  </h3>
+                  <p className="text-base-content/70 text-sm mb-4">
+                    Follow these steps to start learning and teaching skills with other students.
+                  </p>
+
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-primary text-primary-content shrink-0">
+                        <Search size={18} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm">1. Search Students</p>
+                        <p className="text-xs text-base-content/60">
+                          Find people teaching a skill you want to learn.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-primary text-primary-content shrink-0">
+                        <UserCheck size={18} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm">2. Send a Request</p>
+                        <p className="text-xs text-base-content/60">
+                          Visit their profile and request a session.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-primary text-primary-content shrink-0">
+                        <Calendar size={18} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm">3. Start Learning</p>
+                        <p className="text-xs text-base-content/60">
+                          Once accepted, join or schedule a session.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => navigate("/search-students")}
+                    className="btn btn-primary mt-4 w-full sm:w-fit"
+                  >
+                    Search Students to Get Started
+                  </button>
+                </div>
+              </div>
+            </section>
     );
 
     return (

@@ -5,7 +5,7 @@ import SentRequest from '../components/SentRequest';
 import { useState } from 'react';
 
 const Request = () => {
-    const [activeTab, setActiveTab] = useState('received');
+    const [activeTab, setActiveTab] = useState('sent');
 
     return (
         <div className="h-screen flex overflow-hidden bg-base-200 transition-colors duration-300">
@@ -23,16 +23,17 @@ const Request = () => {
                 {/* Tab Buttons */}
                 <div className="flex gap-2 p-4 bg-base-100 border-b border-base-300">
                     <button
-                        className={`btn ${activeTab === 'received' ? 'btn-primary' : 'btn-ghost'}`}
-                        onClick={() => setActiveTab('received')}
-                    >
-                        Received Requests
-                    </button>
-                    <button
                         className={`btn ${activeTab === 'sent' ? 'btn-primary' : 'btn-ghost'}`}
                         onClick={() => setActiveTab('sent')}
                     >
                         Sent Requests
+                    </button>
+
+                    <button
+                        className={`btn ${activeTab === 'received' ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() => setActiveTab('received')}
+                    >
+                        Received Requests
                     </button>
                 </div>
 

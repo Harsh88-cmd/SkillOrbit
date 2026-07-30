@@ -1,18 +1,5 @@
 import { useState } from "react";
-import {
-  House,
-  Search,
-  BookOpenText,
-  GitPullRequestCreate,
-  MessageCircle,
-  Shell,
-  Star,
-  Settings,
-  UserPen,
-  MessagesSquare,
-  Menu,
-  X,
-} from "lucide-react";
+import { House, Search, BookOpenText, GitPullRequestCreate, MessageCircle, Shell, Star, Settings, UserPen, MessagesSquare, Menu, X,} from "lucide-react";
 
 import { NavLink } from "react-router-dom";
 
@@ -54,22 +41,11 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`
-          fixed top-0 left-0
-          w-64 h-screen
-          bg-base-100
-          border-r border-base-300
-          shadow-lg
-          z-50
-          overflow-y-auto
-
-          transform transition-transform duration-300
-
+        className={`fixed top-0 left-0 w-64 h-screen bg-base-100 border-r border-base-300 shadow-lg z-50 overflow-y-auto transform transition-transform duration-300
           ${isOpen
             ? "translate-x-0"
             : "-translate-x-full"
           }
-
           lg:translate-x-0
         `}
       >
@@ -131,21 +107,21 @@ const Sidebar = () => {
           </NavLink>
 
           <NavLink
-            to="/messages"
-            className={menuClass}
-            onClick={() => setIsOpen(false)}
-          >
-            <MessageCircle size={20} />
-            Messages
-          </NavLink>
-
-          <NavLink
             to="/my-sessions"
             className={menuClass}
             onClick={() => setIsOpen(false)}
           >
             <Shell size={20} />
             Sessions
+          </NavLink>
+
+          <NavLink
+            to="/messages"
+            className={menuClass}
+            onClick={() => setIsOpen(false)}
+          >
+            <MessageCircle size={20} />
+            Messages
           </NavLink>
 
           <NavLink
